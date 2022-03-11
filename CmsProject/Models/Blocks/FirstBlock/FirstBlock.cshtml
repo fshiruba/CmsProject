@@ -1,0 +1,18 @@
+﻿@using CmsProject.Models.Blocks.FirstBlock
+@using EPiServer.Web.Mvc.Html
+@model FirstBlock
+
+<div class="col-12">
+    <b>FirstBlock DEFAULT</b>
+
+    <div class="col-12">
+        <p>
+        @Html.PropertyFor(m => m.Heading)
+        </p>
+    </div>
+
+    <div class="col-12">
+        @Html.PropertyFor(m => m.MainIntro)
+    </div>
+    
+</div>

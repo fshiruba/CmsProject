@@ -1,0 +1,63 @@
+﻿@using CmsProject.Models.Blocks.FrontCover
+@using EPiServer.Web.Mvc.Html
+@model FrontCover
+
+@{
+    var frontCoverBgImage = string.Empty;
+
+    if (Model.BackgroundImage != null)
+    {
+        frontCoverBgImage = $"background-image:url({Url.ContentUrl(Model.BackgroundImage)})";
+    }
+}
+
+<div class="container frontcover" style="@frontCoverBgImage">
+
+    <div class="row align-items-center" style="height:10%;color:@Model.NavLinkTextColor;">
+
+        <div class="col-2">@Html.PropertyFor(x=>x.Logo)</div>
+        @{
+            //get only up to 9 links
+            var usableItems = Model.Navlinks.Any() ? Model.Navlinks.Take(9).ToList() : new List<NavLink>();
+
+            //check if any labels can be TOO big
+            var sizeList = usableItems.Select(x =>
+            {
+                return x.ColumnSizeOverride == 0
+            ? string.IsNullOrEmpty(x.Label) ? 1 : Math.Ceiling((double)x.Label.Length / 6)
+            : x.ColumnSizeOverride;
+            }
+            ).ToList();
+
+            while (sizeList.Sum() > 10)
+            {
+                sizeList.RemoveAt(sizeList.Count - 1);
+            }
+
+            var diff = 10 - sizeList.Sum();
+
+            //padding
+            if (diff > 0)
+            {
+                <div class="col-@diff"></div>
+            }
+
+            for (var i = 0; i < sizeList.Count; i++)
+            {
+                var link = usableItems[i].Link[0]?.Href ?? string.Empty;
+                <div class="col-@sizeList[i] position-relative"><a href="@link" class="stretched-link">@usableItems[i].Label</a></div>
+            }
+
+
+        }
+    </div>
+
+    <div class="row" style="height:60%">
+    </div>
+
+    <div class="row align-items-center" style="height:30%">
+        <div class="col frontcover-text" style="color:@Model.MainTextColor">@Html.PropertyFor(x=>x.MainText)</div>
+        <div class="col-2 text-center"><img data-src="@Url.ContentUrl(Model.ScrollButtonPicture)" /></div>
+    </div>
+
+</div>
