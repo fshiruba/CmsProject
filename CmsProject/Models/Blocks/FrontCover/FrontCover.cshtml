@@ -7,11 +7,11 @@
 
     if (Model.BackgroundImage != null)
     {
-        frontCoverBgImage = $"background-image:url({Url.ContentUrl(Model.BackgroundImage)})";
+        frontCoverBgImage = $"background-image:url({Url.ContentUrl(Model.BackgroundImage)});background-size: cover;";
     }
 }
 
-<div class="container frontcover" style="@frontCoverBgImage">
+<div class="container-fluid frontcover-size" style="@frontCoverBgImage">
 
     <div class="row align-items-center" style="height:10%;color:@Model.NavLinkTextColor;">
 
@@ -57,7 +57,16 @@
 
     <div class="row align-items-center" style="height:30%">
         <div class="col frontcover-text" style="color:@Model.MainTextColor">@Html.PropertyFor(x=>x.MainText)</div>
-        <div class="col-2 text-center"><img data-src="@Url.ContentUrl(Model.ScrollButtonPicture)" /></div>
-    </div>
+        
+        @if (Model.ScrollButtonPicture != null)
+        {
+            <div class="col-2 text-center">
+                <a href="#end">
+            <img src="@Url.ContentUrl(Model.ScrollButtonPicture)" class="articleimg" />
+            </a>
+            </div>
+        }
 
+    </div>
+    <div id="end"></div>
 </div>

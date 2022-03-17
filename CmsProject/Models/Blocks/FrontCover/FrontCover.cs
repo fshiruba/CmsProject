@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using CmsProject.Models.BaseTypes;
 using EPiServer.Cms.Shell.UI.ObjectEditing.EditorDescriptors;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
@@ -35,7 +37,7 @@ namespace CmsProject.Models.Blocks.FrontCover
         }
 
         [JsonIgnore]
-        [EditorDescriptor(EditorDescriptorType = typeof(CollectionEditorDescriptor<NavLink>))]
+        [EditorDescriptor(EditorDescriptorType = typeof(EnhancedCollectionEditorDescriptor<NavLink>))]
         [Display(Name = "Navigation Links", Description = "Up to 9 Links supported", GroupName = SystemTabNames.Content, Order = 100)]
         [MaxLength(10, ErrorMessage = "Only up to 10 links allowed")]
         public virtual IList<NavLink> Navlinks { get; set; }
@@ -56,6 +58,8 @@ namespace CmsProject.Models.Blocks.FrontCover
     {
         [Display(Name = "Column Size Override", Description = "Will override the column size if set to greater than 0", GroupName = SystemTabNames.Content, Order = 30)]
         [Range(0, 10, ErrorMessage = "Column Size Override must be into the 0-10 range")]
+        [SelectOne(SelectionFactoryType = typeof(FromRangeSelectionFactory))]
+        [DefaultValue(0)]
         public virtual int ColumnSizeOverride { get; set; }
 
         [Display(Name = "Label", Description = "The actual text displayed on the front cover", GroupName = SystemTabNames.Content, Order = 10)]

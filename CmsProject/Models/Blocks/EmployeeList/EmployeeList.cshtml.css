@@ -1,0 +1,13 @@
+﻿.ArticleListblock {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 40px 80px;
+}
+
+.articleimg {
+    display: block;
+    margin-left: 0px;
+    margin-right: auto;
+    max-height: 100%;
+    max-width: 100%;
+}

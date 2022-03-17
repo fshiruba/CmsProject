@@ -1,7 +1,6 @@
-﻿.frontcover {
-    margin: 25px auto;
+﻿.frontcover-size {
+    margin: auto;
     padding: 40px 80px;
-    /*background-image: url("http://placekitten.com/1600/900");*/
     background-color: lightblue;
     height: 900px;
 }
@@ -24,9 +23,9 @@ a, a:hover, a:visited, a:active {
     display: inline-block;
 }
 
-.frontcover-text {    
+.frontcover-text {
     font-style: normal;
     font-weight: normal;
     font-size: 60px;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

@@ -3,19 +3,18 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="Models\Blocks\FrontCover\FrontCover.cshtml.css.off">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EPiServer.CMS" Version="12.*" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+    <PackageReference Include="morelinq" Version="3.3.2" />
     <PackageReference Include="Wangkanai.Detection" Version="4.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="wwwroot\imgs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\ClientResources\Scripts\EnhancedCollectionEditor.js" />
+    <None Include="wwwroot\ClientResources\Scripts\EnhancedFormatters.js" />
   </ItemGroup>
 </Project>
