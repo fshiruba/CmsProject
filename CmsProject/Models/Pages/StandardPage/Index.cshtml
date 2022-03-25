@@ -1,12 +1,13 @@
-﻿@using EPiServer.Web.Mvc.Html
+﻿@using CmsProject.Models.BaseTypes
+@using EPiServer.Web.Mvc.Html
 @using CmsProject.Models.Pages.StandardPage
-@model StandardPage
+@model BaseViewModel<StandardPage>
 
 <div class="container-fluid">
     <div class="row myPage">
         <div class="col-xs-12 col-md-9">
-            <h2>@Html.PropertyFor(x => x.Title)</h2>
-            @Html.PropertyFor(x => x.MainBody)
+            <h2>@Html.PropertyFor(x => x.CurrentPage.Title)</h2>
+            @Html.PropertyFor(x => x.CurrentPage.MainBody)
         </div>
     </div>
 </div>

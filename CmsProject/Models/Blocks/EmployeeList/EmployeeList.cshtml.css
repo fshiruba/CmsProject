@@ -1,13 +1,24 @@
-﻿.ArticleListblock {
+﻿.employee-block {
     margin-left: auto;
     margin-right: auto;
     padding: 40px 80px;
 }
 
-.articleimg {
+.employee-img {
     display: block;
-    margin-left: 0px;
-    margin-right: auto;
     max-height: 100%;
     max-width: 100%;
+}
+
+.employee-intro-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 60px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.employee-text {
+    font-style: normal;
+    font-weight: normal;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

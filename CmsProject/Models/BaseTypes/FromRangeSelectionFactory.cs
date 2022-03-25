@@ -9,15 +9,13 @@ namespace CmsProject.Models.BaseTypes
 {
     public class FromRangeSelectionFactory : ISelectionFactory
     {
-        public IEnumerable<ISelectItem> FromMetadata(int min, int max, Type modelType)
+        public IEnumerable<ISelectItem> FromMetadata(int min, int max)
         {
             var list = new List<ISelectItem>();
 
             for (int i = min; i < (max + 1); i++)
             {
-                var value = Convert.ChangeType(i, modelType);
-
-                list.Add(new SelectItem() { Text = i.ToString(), Value = value });
+                list.Add(new SelectItem() { Text = i.ToString(), Value = i });
             }
 
             return list;
@@ -31,7 +29,7 @@ namespace CmsProject.Models.BaseTypes
                 {
                     RangeAttribute att = metadata.Attributes.FirstOrDefault(x => x is RangeAttribute) as RangeAttribute;
 
-                    return FromMetadata((int)att.Minimum, (int)att.Maximum, metadata.ModelType);
+                    return FromMetadata((int)att.Minimum, (int)att.Maximum);
                 }
             }
             catch (Exception ex)

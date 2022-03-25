@@ -38,6 +38,10 @@
                     return "";
                 }
 
+                if (Array.isArray(value) && value.length == 0) {
+                    return "";
+                }
+
                 //debugger;
 
                 var tryHref = { url: value[0].href, publicUrl: value[0].publicUrl };

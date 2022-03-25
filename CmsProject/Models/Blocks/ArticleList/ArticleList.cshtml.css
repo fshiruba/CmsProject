@@ -11,3 +11,16 @@
     max-height: 100%;
     max-width: 100%;
 }
+
+.article-intro-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 60px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.article-text {
+    font-style: normal;
+    font-weight: normal;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

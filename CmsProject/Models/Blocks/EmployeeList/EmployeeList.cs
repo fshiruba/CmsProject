@@ -30,8 +30,8 @@ namespace CmsProject.Models.Blocks.EmployeeList
         public virtual XhtmlString IntroText { get; set; }
 
         [Display(Name = "Number of Columns", Description = "How many columns?", GroupName = SystemTabNames.Content, Order = 20)]
-        [SelectOne(SelectionFactoryType = typeof(FromRangeSelectionFactory))]
         [Range(0, 10, ErrorMessage = "Number of columns must be into the 0-10 range")]
+        [SelectOne(SelectionFactoryType = typeof(FromRangeSelectionFactory))]
         [DefaultValue(4)]
         public virtual int NumColumns { get; set; }
     }

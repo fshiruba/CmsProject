@@ -5,7 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using EPiServer;
+using EPiServer.Cms.Shell.Extensions;
 using EPiServer.Cms.Shell.UI.ObjectEditing.EditorDescriptors;
+using EPiServer.Cms.TinyMce.Core;
 using EPiServer.Core;
 using EPiServer.Globalization;
 using EPiServer.Logging;
@@ -63,22 +65,19 @@ namespace CmsProject.Models.BaseTypes
 
         private static readonly ILogger Logger = LogManager.GetLogger(typeof(EnhancedCollectionEditorDescriptor<T>));
 
-        private readonly Injected<IContentLoader> _contentLoader = default(Injected<IContentLoader>);
+        private readonly Injected<IContentLoader> _contentLoader = default;
 
-        private readonly Injected<IUrlResolver> _urlResolver = default(Injected<IUrlResolver>);
+        private readonly Injected<IUrlResolver> _urlResolver = default;
 
         private Dictionary<string, object> getDefaultValues(IEnumerable<PropertyInfo> properties)
         {
             if (!properties.Any()) { return new Dictionary<string, object>(); }
 
-            var defaultsList = properties.Where(t => (      // first get properties that have defaultvalues
-                    t.GetCustomAttributes<DefaultValueAttribute>(true).Any()
-                                                     )).ToDictionary(    // then assign property name as Dict Key and the value of
-                    p => p.Name,        // the DefaultValueAttribute as the Dict Value
-                    p => p.GetCustomAttribute<DefaultValueAttribute>(true).Value
-                                                                    );
-
-            return defaultsList;
+            return properties
+                .Where(t => t.GetCustomAttributes<DefaultValueAttribute>(true).Any() /* first get properties that have defaultvalues */)
+                .ToDictionary(
+                    p => p.Name,                                                    /* then assign property name as Dict Key and the value of */
+                    p => p.GetCustomAttribute<DefaultValueAttribute>(true).Value    /* the DefaultValueAttribute as the Dict Value */);
         }
 
         /// <summary>
@@ -89,7 +88,7 @@ namespace CmsProject.Models.BaseTypes
         {
             if (!string.IsNullOrEmpty(str) && str.Length > 1)
             {
-                return char.ToLowerInvariant(str[0]) + str.Substring(1);
+                return char.ToLowerInvariant(str[0]) + str[1..];
             }
 
             return str;
@@ -182,25 +181,18 @@ namespace CmsProject.Models.BaseTypes
                         }
                     }
 
-                    if (url != null && !url.IsEmpty())
+                    if (url?.IsEmpty() == false)
                     {
                         if (!listItems.ContainsKey(url.ToString()))
                         {
                             var content = _urlResolver.Service.Route(new UrlBuilder(url), ContextMode.Default);
 
-                            ListItem listItem;
-
-                            if (content == null)
-                            {
-                                listItem = new ListItem(url.ToString());
-                            }
-                            else
-                            {
-                                listItem = new ListItem(content.Name,
+                            ListItem listItem = content == null
+                                ? new ListItem(url.ToString())
+                                : new ListItem(content.Name,
                                     _urlResolver.Service.GetUrl(content.ContentLink,
                                         ContentLanguage.PreferredCulture.Name,
                                         new UrlResolverArguments { ContextMode = ContextMode.Default }));
-                            }
 
                             listItems.Add(url.ToString(), listItem);
                         }
@@ -215,18 +207,11 @@ namespace CmsProject.Models.BaseTypes
 
                     if (!listItems.ContainsKey(contentLink.ID.ToString()))
                     {
-                        ListItem listItem;
-
-                        if (!_contentLoader.Service.TryGet<IContent>(contentLink, out var content))
-                        {
-                            listItem = new ListItem(contentLink.ID.ToString(), contentLink.ID.ToString());
-                        }
-                        else
-                        {
-                            listItem = new ListItem(content.Name,
+                        ListItem listItem = !_contentLoader.Service.TryGet<IContent>(contentLink, out var content)
+                            ? new ListItem(contentLink.ID.ToString(), contentLink.ID.ToString())
+                            : new ListItem(content.Name,
                                 _urlResolver.Service.GetUrl(content.ContentLink, ContentLanguage.PreferredCulture.Name,
                                     new UrlResolverArguments { ContextMode = ContextMode.Default }));
-                        };
 
                         listItems.Add(contentLink.ID.ToString(), listItem);
                     }
@@ -250,7 +235,7 @@ namespace CmsProject.Models.BaseTypes
                 return (TProperty)propertyInfo.GetValue(item, null);
             }
 
-            return default(TProperty);
+            return default;
         }
 
         /// <summary>
@@ -273,7 +258,7 @@ namespace CmsProject.Models.BaseTypes
 
             metadata.EditorConfiguration.Add("fields", GetFieldInfo(metadata));
             metadata.EditorConfiguration.Add("itemMappings", GetItemMappings(metadata));
-            metadata.EditorConfiguration.Add("defaultItem", getDefaultValues((metadata.ModelType.GetGenericArguments()[0]).GetProperties()));
+            metadata.EditorConfiguration.Add("defaultItem", getDefaultValues(metadata.ModelType.GetGenericArguments()[0].GetProperties()));
 
             metadata.ClientEditingClass = "shiruba/enhancedcollectioneditor";
         }

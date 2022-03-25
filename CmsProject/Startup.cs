@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using CmsProject.Config.StartupExtensions;
 using CmsProject.Config.ViewLocationExpander;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Web.Routing;
@@ -24,7 +25,6 @@ namespace CmsProject
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseBrowserLink();
             }
 
             app.UseDetection();
@@ -42,7 +42,7 @@ namespace CmsProject
         {
             if (_webHostingEnvironment.IsDevelopment())
             {
-                //Add development configuration
+                //services.Configure<ClientResourceOptions>(uiOptions => uiOptions.Debug = true);
             }
 
             services.AddDetection();
@@ -62,6 +62,8 @@ namespace CmsProject
             services
                 .AddCms()
                 .AddCmsAspNetIdentity<ApplicationUser>();
+
+            services.AddTinyMceConfiguration();
 
             services.ConfigureApplicationCookie(options => options.LoginPath = "/util/Login");
         }

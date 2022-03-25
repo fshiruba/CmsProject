@@ -30,6 +30,7 @@ namespace CmsProject.Models.Blocks.FrontCover
         public virtual XhtmlString MainText { get; set; }
 
         [Display(Name = "MainText Color", Description = "Color in hex format (tries to parse color by name if possible)", GroupName = SystemTabNames.Content, Order = 49)]
+        [ClientEditor(ClientEditingClass = "shiruba/ColorPicker")]
         public virtual string MainTextColor
         {
             get { return this.GetPropertyValue(page => page.MainTextColor) ?? "#000000FF"; }
@@ -43,6 +44,7 @@ namespace CmsProject.Models.Blocks.FrontCover
         public virtual IList<NavLink> Navlinks { get; set; }
 
         [Display(Name = "Navigation Links Color", Description = "Color in hex format (tries to parse color by name if possible)", GroupName = SystemTabNames.Content, Order = 99)]
+        [ClientEditor(ClientEditingClass = "shiruba/ColorPicker")]
         public virtual string NavLinkTextColor
         {
             get { return this.GetPropertyValue(page => page.NavLinkTextColor) ?? "#000000FF"; }
